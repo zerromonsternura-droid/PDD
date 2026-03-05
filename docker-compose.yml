@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: pdd_users
+    ports:
+      - "5432:5432"   # expose for pgAdmin/psql access
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - pddnet
+
+  web:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./key.env
+    environment:
+      DB_USER: postgres
+      DB_PASS: 123456
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_MAIN: postgres
+      DB_USERS: pdd_users
+      # GOOGLE_API_KEY and GEMINI_MODEL should be set if you need the AI chat
+      # If you prefer, set these here or use key.env above
+    networks:
+      - pddnet
+
+volumes:
+  db_data:
+
+networks:
+  pddnet:
+    driver: bridge

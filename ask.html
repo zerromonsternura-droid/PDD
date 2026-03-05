@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDD Test.kz – Сұрақ қою / ИИ чат</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-mark">PDD</span>
+        <div class="logo-text">
+          <span class="logo-title">PDD Test.kz</span>
+          <span class="logo-subtitle">Сұрақтар мен ИИ чат</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Басты бет</a>
+        <a href="test.html" class="nav-link">PDD тест</a>
+        <a href="ask.html" class="nav-link active">Сұрақ қою / ИИ чат</a>
+      </nav>
+      <div class="auth-buttons" id="authButtons">
+        <button class="btn btn-ghost" id="openLogin">Кіру</button>
+        <button class="btn btn-primary" id="openRegister">Тіркелу</button>
+      </div>
+      <div class="auth-user hidden" id="authUser">
+        <span id="authUserEmail"></span>
+        <button class="btn btn-ghost" id="logoutBtn">Шығу</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="page-header">
+      <h1>ИИ чат және сұрақтар</h1>
+      <p>
+        Мұнда сіз PDD, жол белгілері, маневр жасау ережелері, нақты өмірлік
+        жағдайлар туралы кез келген сұрақ қоя аласыз. ИИ жауап беруге тырысады.
+      </p>
+    </div>
+
+    <section class="ask-layout">
+      <section class="ask-form-card">
+        <h2>Жаңа сұрақ қою</h2>
+        <form id="userQuestionForm">
+          <label>
+            Сұрағыңыз
+            <textarea id="userQuestionText" rows="3" required placeholder="Мысалы: &quot;Қызыл шам жанып тұрғанда қай кезде солға бұрылуға болады?&quot;"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Сұрақты сақтау</button>
+        </form>
+        <p class="form-note">
+          Бұл сұрақтар тек сіздің құрылғыңызда сақталады, кейін қарап шығуға
+          ыңғайлы болу үшін.
+        </p>
+      </section>
+
+      <section class="ask-list-card">
+        <h2>Менің сұрақтарым</h2>
+        <ul class="question-list" id="savedQuestions">
+          <!-- JS арқылы толтырылады -->
+        </ul>
+        <button class="btn btn-ghost btn-full" id="clearQuestions">Барлық сақталған сұрақтарды өшіру</button>
+      </section>
+    </section>
+
+    <section class="chat-card">
+      <div class="chat-header">
+        <h2>ИИ чат (AI ассистент)</h2>
+        <p>Кез келген сұрығыңызды осында жазыңыз. Жауап бірнеше секундта келеді.</p>
+      </div>
+      <div class="chat-window" id="chatWindow">
+        <!-- Хабарламалар JS арқылы салынады -->
+      </div>
+      <form class="chat-input-row" id="chatForm">
+        <textarea
+          id="chatInput"
+          rows="2"
+          placeholder="Сұрағыңызды жазыңыз..."
+          required
+        ></textarea>
+        <button type="submit" class="btn btn-primary" id="sendChatBtn">Жіберу</button>
+      </form>
+      <p class="chat-note">
+        Назар аударыңыз: ИИ-ға сұрақ жіберу үшін артқы жағында (backend) арнайы
+        API баптау қажет. Оны төменде түсіндіріп өтемін.
+      </p>
+    </section>
+
+    <section class="section info-card">
+      <h2>ИИ API кілтін қауіпсіз пайдалану</h2>
+      <p>
+        Сіз берген API кілтті тікелей HTML/JavaScript файлының ішіне жазуға
+        болмайды – оны кез келген адам көреді. Сол себепті кілтті тек сервер
+        жағында (backend) `.env` сияқты қорғалған файлда сақтау керек.
+      </p>
+      <p>
+        Төменде Node.js (Express) көмегімен өте қарапайым сервер мысалын
+        қосып беремін. Сіз соны `server.js` ретінде сақтап, API кілтіңізді
+        қорғалған түрде пайдалана аласыз.
+      </p>
+    </section>
+  </main>
+
+  <!-- Auth Modal (ортақ) -->
+  <div class="modal-backdrop hidden" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="closeAuthModal">&times;</button>
+      <div class="tabs">
+        <button class="tab active" id="tabLogin">Кіру</button>
+        <button class="tab" id="tabRegister">Тіркелу</button>
+      </div>
+      <div class="tab-content" id="loginTab">
+        <h2>Аккаунтқа кіру</h2>
+        <form id="loginForm">
+          <label>
+            E-mail
+            <input type="email" id="loginEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="loginPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Кіру</button>
+        </form>
+      </div>
+      <div class="tab-content hidden" id="registerTab">
+        <h2>Жаңа аккаунт тіркеу</h2>
+        <form id="registerForm">
+          <label>
+            E-mail
+            <input type="email" id="registerEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="registerPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Тіркелу</button>
+        </form>
+      </div>
+      <p class="modal-note">
+        Аккаунт деректері тек осы құрылғыдағы браузердің жергілікті жадысында
+        сақталады (localStorage). Бұл оқу-демо нұсқасы.
+      </p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> PDD Test.kz – оқу мақсатындағы платформа.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

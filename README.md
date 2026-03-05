@@ -1,261 +1,65 @@
-# 🚦 PDD Test.kz
+## PDD Test.kz – қазақша PDD тест және ИИ чат
 
-Kazakh-language **PDD (Жол жүру ережелері)** learning website with user authentication and an AI assistant powered by Google Gemini.
+Бұл шағын жоба – қазақ тіліндегі PDD тест (шамамен 100 сұрақ) және ИИ чат.
 
-The project includes:
+### Құрылымы
 
-* 🌐 Frontend (HTML / CSS / JavaScript)
-* ⚙️ Backend (**Node.js + Express**)
-* 🗄️ Database (**PostgreSQL**)
-* 🤖 AI assistant for PDD questions (**Google Gemini API**)
-* 🐳 Docker support for easy deployment
+- `index.html` – басты бет, тіркелу модалы және жалпы статистика
+- `test.html` – тест беті, 100 сұрақтық блок, жасыл/қызыл кері байланыс
+- `ask.html` – пайдаланушының өз сұрақтары және ИИ чат
+- `style.css` – заманауи қараңғы (dark) дизайн
+- `app.js` – барлық frontend логика (аутентификация, тест, чат UI)
+- `server.js` – Node.js (Express) арқылы өте қарапайым backend, ИИ API-ға прокси
+- `package.json` – Node тәуелділіктері
 
----
+### Орнату (ИИ чатты толық іске қосу үшін)
 
-# 📌 Features
-
-### 👤 Authentication
-
-* User registration
-* User login
-* Password hashing using **bcrypt**
-
-### 🤖 AI Chat Assistant
-
-Users can ask questions about:
-
-* Road signs
-* Driving rules
-* Traffic laws
-* PDD exam preparation
-
-AI responses are generated using **Google Gemini API**.
-
-### 🗄️ Database
-
-User data is stored in **PostgreSQL**.
-
-Table example:
-
-```sql
-users
-├── id
-├── email
-├── password
-└── created_at
-```
-
----
-
-# 🛠️ Tech Stack
-
-Backend:
-
-* Node.js
-* Express
-* PostgreSQL
-* bcryptjs
-
-Frontend:
-
-* HTML
-* CSS
-* JavaScript
-
-Infrastructure:
-
-* Docker
-* Docker Compose
-
-AI:
-
-* Google Gemini API
-
----
-
-# 📂 Project Structure
-
-```
-project
-│
-├── index.html
-├── style.css
-├── script.js
-│
-├── server.js
-├── db.js
-│
-├── package.json
-├── Dockerfile
-├── docker-compose.yml
-│
-└── README.md
-```
-
----
-
-# ⚙️ Installation
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/yourusername/pdd-test.git
-cd pdd-test
-```
-
----
-
-### 2️⃣ Install dependencies
+1. Компьютерде Node.js орнатылғанына көз жеткізіңіз.
+2. Терминалды осы қалтаға ашыңыз (`PDD`).
+3. Тәуелділіктерді орнатыңыз:
 
 ```bash
 npm install
 ```
 
----
+4. API кілтіңізді қорғалған түрде орнатыңыз (мысалы, PowerShell-де):
 
-### 3️⃣ Set environment variables
-
-Create a `.env` file:
-
-```
-GOOGLE_API_KEY=your_gemini_api_key
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=123456
-DB_NAME=postgres
+```powershell
+$env:GOOGLE_API_KEY="МҰНДА_ӨЗ_API_КІЛТІҢІЗ"
 ```
 
----
-
-### 4️⃣ Run the server
+5. Серверді іске қосыңыз:
 
 ```bash
 npm start
 ```
 
-Open in browser:
+6. Браузерде `index.html` файлын ашыңыз (файлды екі рет басу немесе VSCode Live Server т.б.).
+   ИИ чат `/api/chat` арқылы `http://localhost:3000` серверіне сұрау жібереді.
 
-```
-http://localhost:3000
-```
 
----
+### Docker арқылы іске қосу
 
-# 🐳 Running with Docker
-
-Start the project using Docker:
+Жобады контейнерде қосу үшін Docker мен Docker Compose орнатылуы қажет.
 
 ```bash
-docker compose up --build
+# бірден бэкті мен дерекқорды көтеру (порт 5432 ашылады PostgreSQL-ге қол жеткізу үшін)
+docker-compose up --build
 ```
 
-Application will run at:
+> Құрама іске қосқанда `db` сервисі 5432 портын ашып, контейнердегі PostgreSQL-ге
+> хосттан қосылуға мүмкіндік береді. Осы арқылы pgAdmin немесе басқа клиентпен
+> `localhost:5432` мекенжайын пайдаланып кіре аласыз. Пайдаланушы — `postgres`,
+> пароль — `123456`.
 
-```
-http://localhost:3000
-```
-
-PostgreSQL will run at:
-
-```
-localhost:5432
-```
-
----
-
-# 🧠 AI Chat Endpoint
-
-```
-POST /api/chat
+- Қолданба `http://localhost:3000` мекенжайында қолжетімді болады.
+- Деректер `postgres` контейнерінде сақталады (persistent volume ішінде).
+- Егер ИИ чат керек болса, тұрғыны `web` сервисіне `GOOGLE_API_KEY` және `GEMINI_MODEL` айнымалыларын орнатыңыз:
+  ```bash
+env GOOGLE_API_KEY="..." GEMINI_MODEL="models/gemini-2.0" docker-compose up --build
 ```
 
-Example request:
+> `docker-compose.yml` файлы алдын ала PostgreSQL-ді (`postgres:15`) пайдалану үшін дайындалған. Қосылу параметрлері қоршаған орта арқылы өңделеді.
 
-```json
-{
-  "message": "Жол белгілерін қалай есте сақтауға болады?"
-}
-```
+> Назар аударыңыз: API кілтті ешқашан тікелей HTML/JS файлының ішіне жазбаңыз. Ол ашық болып қалады.
 
-Example response:
-
-```json
-{
-  "reply": "Жол белгілерін есте сақтау үшін..."
-}
-```
-
----
-
-# 🔐 Authentication API
-
-### Register
-
-```
-POST /api/register
-```
-
-Body:
-
-```json
-{
-  "email": "user@email.com",
-  "password": "password123"
-}
-```
-
----
-
-### Login
-
-```
-POST /api/login
-```
-
-Body:
-
-```json
-{
-  "email": "user@email.com",
-  "password": "password123"
-}
-```
-
----
-
-# 🗄️ Database
-
-Default database:
-
-```
-PostgreSQL
-```
-
-Default table:
-
-```
-users
-```
-
----
-
-# 🚀 Future Improvements
-
-* PDD exam simulation
-* Progress tracking
-* User profiles
-* Admin panel
-* Mobile responsive design
-
----
-
-# 📜 License
-
-MIT License
-
----
-
-# 👨‍💻 Author
-
-Developed for learning and practicing **PDD rules in Kazakh language**.

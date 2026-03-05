@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDD Test.kz – PDD тест</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-mark">PDD</span>
+        <div class="logo-text">
+          <span class="logo-title">PDD Test.kz</span>
+          <span class="logo-subtitle">Тест бөлімі</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Басты бет</a>
+        <a href="test.html" class="nav-link active">PDD тест</a>
+        <a href="ask.html" class="nav-link">Сұрақ қою / ИИ чат</a>
+      </nav>
+      <div class="auth-buttons" id="authButtons">
+        <button class="btn btn-ghost" id="openLogin">Кіру</button>
+        <button class="btn btn-primary" id="openRegister">Тіркелу</button>
+      </div>
+      <div class="auth-user hidden" id="authUser">
+        <span id="authUserEmail"></span>
+        <button class="btn btn-ghost" id="logoutBtn">Шығу</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="page-header">
+      <h1>PDD тест – 100 сұрақтық блок</h1>
+      <p>
+        Әр сұраққа бір ғана дұрыс жауап. Таңдағаннан кейін бірден жасыл/қызыл
+        түспен нәтиже көрсетіледі.
+      </p>
+    </div>
+
+    <section class="test-layout">
+      <aside class="test-sidebar">
+        <div class="test-info-card">
+          <h2>Тест статистикасы</h2>
+          <div class="stat-row">
+            <span>Ағымдағы сұрақ:</span>
+            <strong><span id="currentIndex">1</span> / <span id="totalQuestions">0</span></strong>
+          </div>
+          <div class="stat-row">
+            <span>Дұрыс жауаптар:</span>
+            <strong id="correctCount">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>Қате жауаптар:</span>
+            <strong id="wrongCount">0</strong>
+          </div>
+          <div class="progress-wrapper">
+            <span>Прогресс</span>
+            <div class="progress-bar">
+              <div class="progress-fill" id="testProgress"></div>
+            </div>
+            <span class="progress-percent" id="testPercent">0%</span>
+          </div>
+        </div>
+
+        <div class="test-controls">
+          <button class="btn btn-secondary btn-full" id="restartTest">Тестті қайта бастау</button>
+          <button class="btn btn-ghost btn-full" id="goToAsk">Түсінбедім, ИИ-дан сұрау</button>
+        </div>
+
+        <p class="sidebar-note">
+          Сұрақтардың реті әрбір сессияда араластырылып берілуі мүмкін.
+        </p>
+      </aside>
+
+      <section class="test-main">
+        <div class="result-card hidden" id="loginRequiredCard">
+          <h2>Тест тапсыру үшін кіру керек</h2>
+          <p>
+            PDD тестті бастау үшін аккаунтқа кіріңіз немесе тіркеліңіз. Бұл сіздің нәтижелеріңізді
+            сақтауға көмектеседі.
+          </p>
+          <div class="result-actions">
+            <button class="btn btn-primary" id="loginToStart">Кіру</button>
+            <button class="btn btn-ghost" id="registerToStart">Тіркелу</button>
+          </div>
+        </div>
+
+        <div class="question-card" id="questionCard">
+          <div class="question-header">
+            <span class="question-badge" id="questionBadge">Сұрақ 1</span>
+            <span class="question-theme" id="questionTheme">Тақырыбы: –</span>
+          </div>
+          <p class="question-text" id="questionText">
+            Жүктелуде...
+          </p>
+          <div class="answers-list" id="answersList">
+            <!-- Жауап нұсқалары JS арқылы салынады -->
+          </div>
+          <div class="question-feedback" id="questionFeedback"></div>
+          <div class="question-footer">
+            <button class="btn btn-primary" id="nextQuestion" disabled>Келесі сұрақ</button>
+          </div>
+        </div>
+
+        <div class="result-card hidden" id="resultCard">
+          <h2>Тест аяқталды</h2>
+          <p>
+            Жалпы нәтижеңіз:
+          </p>
+          <p class="result-score">
+            <strong id="finalCorrect">0</strong> / <strong id="finalTotal">0</strong>
+            (<span id="finalPercent">0%</span>)
+          </p>
+          <p id="resultComment"></p>
+          <div class="result-actions">
+            <button class="btn btn-primary" id="againTest">Қайта тапсыру</button>
+            <a href="ask.html" class="btn btn-ghost">Қиын сұрақтарды ИИ-ға жіберу</a>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Auth Modal (ортақ) -->
+  <div class="modal-backdrop hidden" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="closeAuthModal">&times;</button>
+      <div class="tabs">
+        <button class="tab active" id="tabLogin">Кіру</button>
+        <button class="tab" id="tabRegister">Тіркелу</button>
+      </div>
+      <div class="tab-content" id="loginTab">
+        <h2>Аккаунтқа кіру</h2>
+        <form id="loginForm">
+          <label>
+            E-mail
+            <input type="email" id="loginEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="loginPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Кіру</button>
+        </form>
+      </div>
+      <div class="tab-content hidden" id="registerTab">
+        <h2>Жаңа аккаунт тіркеу</h2>
+        <form id="registerForm">
+          <label>
+            E-mail
+            <input type="email" id="registerEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="registerPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Тіркелу</button>
+        </form>
+      </div>
+      <p class="modal-note">
+        Аккаунт деректері тек осы құрылғыдағы браузердің жергілікті жадысында
+        сақталады (localStorage). Бұл оқу-демо нұсқасы.
+      </p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> PDD Test.kz – оқу мақсатындағы платформа.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

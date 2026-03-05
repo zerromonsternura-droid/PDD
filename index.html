@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDD Test.kz – Басты бет</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-mark">PDD</span>
+        <div class="logo-text">
+          <span class="logo-title">PDD Test.kz</span>
+          <span class="logo-subtitle">ҚР жол жүру ережелері тесті</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Басты бет</a>
+        <a href="test.html" class="nav-link">PDD тест</a>
+        <a href="ask.html" class="nav-link">Сұрақ қою / ИИ чат</a>
+      </nav>
+      <div class="auth-buttons" id="authButtons">
+        <button class="btn btn-ghost" id="openLogin">Кіру</button>
+        <button class="btn btn-primary" id="openRegister">Тіркелу</button>
+      </div>
+      <div class="auth-user hidden" id="authUser">
+        <span id="authUserEmail"></span>
+        <button class="btn btn-ghost" id="logoutBtn">Шығу</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>Қазақша PDD тесттері мен ақылды ассистент бір жерде</h1>
+          <p>
+            Жол жүру ережелерін қазақ тілінде үйреніп, 100 сұрақтан тұратын
+            интерактивті тест тапсырыңыз. Әр жауаптан кейін бірден жасыл/қызыл
+            түспен кері байланыс аласыз.
+          </p>
+          <div class="hero-actions">
+            <a href="test.html" class="btn btn-primary btn-lg">Тестті бастау</a>
+            <a href="ask.html" class="btn btn-ghost btn-lg">ИИ-дан сұрақ қою</a>
+          </div>
+          <ul class="hero-features">
+            <li>Толық қазақша интерфейс</li>
+            <li>Жауапқа бірден баға (дұрыс/қате)</li>
+            <li>ИИ чат – кез келген сұраққа жауап</li>
+          </ul>
+        </div>
+        <div class="hero-card">
+          <div class="stat-card">
+            <h2>Дайындық прогресі</h2>
+            <div class="stat-row">
+              <span>Соңғы сессиядағы дұрыс жауаптар:</span>
+              <strong id="lastScore">–</strong>
+            </div>
+            <div class="stat-row">
+              <span>Жалпы аяқталған тесттер:</span>
+              <strong id="totalCompleted">0</strong>
+            </div>
+            <div class="progress-wrapper">
+              <span>Орташа нәтиже</span>
+              <div class="progress-bar">
+                <div class="progress-fill" id="avgProgress" style="width: 0%"></div>
+              </div>
+              <span class="progress-percent" id="avgPercent">0%</span>
+            </div>
+          </div>
+          <div class="hint-card">
+            <h3>Қалай бастаймын?</h3>
+            <ol>
+              <li>Тіркеліп, аккаунт жасаңыз.</li>
+              <li><strong>PDD тест</strong> бөліміне өтіп, тестті бастаңыз.</li>
+              <li>Түсінбеген сұрақтарыңызды <strong>ИИ чатқа</strong> жазыңыз.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2 class="section-title">Платформа мүмкіндіктері</h2>
+      <div class="features-grid">
+        <article class="feature-item">
+          <h3>Тіркелу және жеке кабинет</h3>
+          <p>
+            Пайдаланушы ретінде тіркеліп, өз нәтижелеріңізді сақтай аласыз.
+            Қарапайым e-mail мен құпиясөз жеткілікті (демо режимде – жергілікті
+            құрылғыда сақталады).
+          </p>
+        </article>
+        <article class="feature-item">
+          <h3>100 сұрақтық PDD тест</h3>
+          <p>
+            Нақты емтихан форматына жақын, шамамен 100 сұрақтан тұратын блок.
+            Әр сұраққа жауап бергенде бірден кері байланыс беріледі.
+          </p>
+        </article>
+        <article class="feature-item">
+          <h3>Жасыл/қызыл визуалды кері байланыс</h3>
+          <p>
+            Дұрыс жауаптар жасыл түспен, қате жауаптар қызыл түспен боялады.
+            Мұның бәрі түсінікті минималист интерфейспен жүзеге асады.
+          </p>
+        </article>
+        <article class="feature-item">
+          <h3>ИИ чат (AI көмекші)</h3>
+          <p>
+            PDD, ережелер, белгілер, өмірлік мысалдар туралы кез келген
+            сұрағыңызды жазыңыз – ИИ толыққанды жауап беруге тырысады.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="modal-backdrop hidden" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="closeAuthModal">&times;</button>
+      <div class="tabs">
+        <button class="tab active" id="tabLogin">Кіру</button>
+        <button class="tab" id="tabRegister">Тіркелу</button>
+      </div>
+      <div class="tab-content" id="loginTab">
+        <h2>Аккаунтқа кіру</h2>
+        <form id="loginForm">
+          <label>
+            E-mail
+            <input type="email" id="loginEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="loginPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Кіру</button>
+        </form>
+      </div>
+      <div class="tab-content hidden" id="registerTab">
+        <h2>Жаңа аккаунт тіркеу</h2>
+        <form id="registerForm">
+          <label>
+            E-mail
+            <input type="email" id="registerEmail" required />
+          </label>
+          <label>
+            Құпиясөз
+            <input type="password" id="registerPassword" required minlength="4" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-full">Тіркелу</button>
+        </form>
+      </div>
+      <p class="modal-note">
+        Аккаунт деректері тек осы құрылғыдағы браузердің жергілікті жадысында
+        сақталады (localStorage). Бұл оқу-демо нұсқасы.
+      </p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> PDD Test.kz – оқу мақсатындағы платформа.</p>
+      <p class="footer-small">
+        Нақты емтиханға дайындалу үшін ҚР ІІМ ресми ресурстарын да қолданыңыз.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
