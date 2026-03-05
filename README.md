@@ -59,7 +59,3 @@ docker-compose up --build
 env GOOGLE_API_KEY="..." GEMINI_MODEL="models/gemini-2.0" docker-compose up --build
 ```
 
-> `docker-compose.yml` файлы алдын ала PostgreSQL-ді (`postgres:15`) пайдалану үшін дайындалған. Қосылу параметрлері қоршаған орта арқылы өңделеді.
-
-> Назар аударыңыз: API кілтті ешқашан тікелей HTML/JS файлының ішіне жазбаңыз. Ол ашық болып қалады.
-
